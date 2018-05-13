@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/codewars.iml" filepath="$PROJECT_DIR$/.idea/codewars.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pythonCookBook/.idea/pythonCookBook.iml" filepath="$PROJECT_DIR$/../pythonCookBook/.idea/pythonCookBook.iml" />
+    </modules>
+  </component>
+</project>
