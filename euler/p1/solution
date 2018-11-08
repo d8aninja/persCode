@@ -1,0 +1,13 @@
+def getDivisors(n, factor):
+    l = list()
+    for i in range(n):
+        if i != 0 and i % factor == 0:
+            l.append(i)
+    return l
+
+threes = getDivisors(1000, 3)
+fives = getDivisors(1000, 5)
+allDivs = threes + fives
+setDivs = set(allDivs) # need to handle repeats in lists or its wrong
+ans = sum(setDivs)
+print(ans)
