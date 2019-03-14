@@ -35,7 +35,7 @@ fn main() {
 
     let arry = [1,2,3,4,5]; // note type
 
-    for i in arry.iter() { // needs .iter or &ref, won't work on arry obj
+    for i in &arry { // needs .iter or &ref, won't work on 'arry'
         println!("{}", i);
     }
 
