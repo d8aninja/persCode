@@ -23,6 +23,7 @@ fn main() {
     };
     dbg!(&f);
 
+    // but that's a lot of boilerplate^ for 3x matches
     // more betterly:
     let g = File::open("hello.txt").map_err(|error| {
         if error.kind() == ErrorKind::NotFound {
