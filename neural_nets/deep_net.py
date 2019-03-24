@@ -1,7 +1,13 @@
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("/tmp/data/", one_hot = True)
-
+'''
+0 = [1,0,0,0,0,0,0,0,0]
+1 = [0,1,0,0,0,0,0,0,0]
+2 = [0,0,1,0,0,0,0,0,0]
+3 = [0,0,0,1,0,0,0,0,0]
+...
+'''
 n_nodes_hl1 = 500
 n_nodes_hl2 = 500
 n_nodes_hl3 = 500
@@ -41,12 +47,18 @@ def neural_network_model(data):
 
 def train_neural_network(x):
     prediction = neural_network_model(x)
-    cost = tf.reduce_mean( tf.nn.softmax_cross_entropy_with_logits(prediction,y) )
+    # OLD VERSION:
+    #cost = tf.reduce_mean( tf.nn.softmax_cross_entropy_with_logits(prediction,y) )
+    # NEW:
+    cost = tf.reduce_mean( tf.nn.softmax_cross_entropy_with_logits(logits=prediction, labels=y) )
     optimizer = tf.train.AdamOptimizer().minimize(cost)
     
     hm_epochs = 10
     with tf.Session() as sess:
-        sess.run(tf.initialize_all_variables())
+        # OLD:
+        #sess.run(tf.initialize_all_variables())
+        # NEW:
+        sess.run(tf.global_variables_initializer())
 
         for epoch in range(hm_epochs):
             epoch_loss = 0
