@@ -8,12 +8,13 @@ mnist = input_data.read_data_sets("/tmp/data/", one_hot = True)
 3 = [0,0,0,1,0,0,0,0,0]
 ...
 '''
+tf.random.set_random_seed(1234)
 n_nodes_hl1 = 500
 n_nodes_hl2 = 500
 n_nodes_hl3 = 500
 
 n_classes = 10
-batch_size = 100
+batch_size = 300
 
 x = tf.placeholder('float', [None, 784])
 y = tf.placeholder('float')
@@ -53,7 +54,8 @@ def train_neural_network(x):
     cost = tf.reduce_mean( tf.nn.softmax_cross_entropy_with_logits(logits=prediction, labels=y) )
     optimizer = tf.train.AdamOptimizer().minimize(cost)
     
-    hm_epochs = 10
+    hm_epochs = 5
+    saver = tf.train.Saver()
     with tf.Session() as sess:
         # OLD:
         #sess.run(tf.initialize_all_variables())
@@ -67,11 +69,19 @@ def train_neural_network(x):
                 _, c = sess.run([optimizer, cost], feed_dict={x: epoch_x, y: epoch_y})
                 epoch_loss += c
 
+            save_path = saver.save(sess, "/tmp/model.ckpt")
             print('Epoch', epoch, 'completed out of',hm_epochs,'loss:',epoch_loss)
+            print("Model saved in path: %s" % save_path)
 
         correct = tf.equal(tf.argmax(prediction, 1), tf.argmax(y, 1))
-
         accuracy = tf.reduce_mean(tf.cast(correct, 'float'))
-        print('Accuracy:',accuracy.eval({x:mnist.test.images, y:mnist.test.labels}))
+        print('Accuracy:', accuracy.eval({x:mnist.test.images, y:mnist.test.labels}))
 
 train_neural_network(x)
+
+# TODO: target/test data
+epoch_x, epoch_y = mnist.test.next_batch(100)
+sess = tf.Session()
+saver.restore(sess, "/tmp/model.ckpt")
+sess.run(tf.global_variables_initializer())
+prediction.eval(session=sess, feed_dict={x: epoch_x, y: epoch_y})
