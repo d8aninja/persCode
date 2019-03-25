@@ -80,8 +80,10 @@ def train_neural_network(x):
 train_neural_network(x)
 
 # TODO: target/test data
+prediction = neural_network_model(x)
 epoch_x, epoch_y = mnist.test.next_batch(100)
 sess = tf.Session()
-saver.restore(sess, "/tmp/model.ckpt")
+saver = tf.train.Saver()
+# saver.restore(sess, "/tmp/model.ckpt") # not sure why I don't need this
 sess.run(tf.global_variables_initializer())
 prediction.eval(session=sess, feed_dict={x: epoch_x, y: epoch_y})
