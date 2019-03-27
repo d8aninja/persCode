@@ -1,3 +1,14 @@
+//https://rust-lang-nursery.github.io/rust-cookbook/science/mathematics/statistics.html
 fn main() {
-    println!("Hello, world!");
+    let data = [3, 1, 6, 1, 5, 8, 1, 8, 10, 11];
+
+    let sum = data.iter().sum::<i32>() as f32;
+    let count = data.len();
+
+    let mean = match count {
+        positive if positive > 0 => Some( sum / count as f32),
+        _ => None
+    };
+
+    println!("The mean is {:?}", mean);
 }
