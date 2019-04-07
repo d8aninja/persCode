@@ -51,8 +51,17 @@ impl Ship {
     }
 }
 
-fn main() {
+fn can_travel(ship: &Ship) {
+    // let distance = ship.fuel * 10.0;
+    let distance = match ship.kind {
+        Ships::TieBomber(..) | Ships::TieFighter(..) => ship.fuel * 1.0,
+        Ships::XWing(..) | Ships::YWing(..) => ship.fuel * 10.0,
+    };
+    println!("{} ({:?}) can travel a distance of {} lightyears.", ship.pilot, ship.kind, distance);
+}
 
+fn main() {
+    
     let mut rng = rand::thread_rng();
 
     let red_five = Ship {
@@ -90,17 +99,18 @@ fn main() {
         rebel_scum: false,
         dmg: rng.gen(),
     };
+    println!("{:?}", &tie_one);
+    can_travel(&tie_one);
 
     tie_one.shoot(&red_five);
     red_five.shoot(&tie_one);
     red_five.shoot(&tie_one);
-}
-
-fn can_travel(ship: &Ship) {
-    // let distance = ship.fuel * 10.0;
-    let distance = match ship.kind {
-        Ships::TieBomber | Ships::TieFighter => ship.fuel * 1.0,
-        Ships::XWing | Ships::YWing => ship.fuel * 10.0,
-    };
-    println!("{} ({:?}) can travel a distance of {} lightyears.", ship.pilot, ship.kind, distance);
+    let n1: u8 = rng.gen();
+    let n2: u16 = rng.gen();
+    println!("Random u8: {}", n1);
+    println!("Random u16: {}", n2);
+    println!("Random u32: {}", rng.gen::<u32>());
+    println!("Random i32: {}", rng.gen::<i32>());
+    println!("Random float: {}", rng.gen::<f64>());
+    println!("Random float in range: {}", rng.gen_range(0.0, 10.0));
 }
