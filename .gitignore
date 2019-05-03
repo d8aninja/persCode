@@ -5,3 +5,4 @@ venv
 rust/starwars/
 rust/tokio/
 rust/parser_combinators/
+rust/yaml/

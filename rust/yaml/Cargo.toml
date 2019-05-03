@@ -1,7 +1,0 @@
-[package]
-name = "yaml"
-version = "0.1.0"
-authors = ["Jeff van Geete <jeff.vangeete@protectwise.com>"]
-edition = "2018"
-
-[dependencies]
