@@ -1,4 +1,7 @@
 venv
 .DS_Store
-/.idea/*
+*.idea*
 .vscode/*
+rust/starwars/
+rust/tokio/
+rust/parser_combinators/
