@@ -87,27 +87,27 @@ impl<T> Shoot for T
     }
 }
 
-impl Shoot for Ship {
-    fn shoot<T>(&self, other: &T) {
-        println!("\n{:?} ({:?}) shot at {:?} ({:?})!",
-                 self.pilot,
-                 self.kind,
-                 other.pilot,
-                 other.kind
-        );
-    }
-}
+// impl Shoot for Ship {
+//     fn shoot<T>(&self, other: &T) {
+//         println!("\n{:?} ({:?}) shot at {:?} ({:?})!",
+//                  self.pilot,
+//                  self.kind,
+//                  other.pilot,
+//                  other.kind
+//         );
+//     }
+// }
 
-impl Shoot for Character {
-    fn shoot<T>(&self, other: &T) {
-        println!("\n{:?} (of {:?}) shot at {:?} (of {:?})!",
-                 self.name,
-                 self.home_planet,
-                 other.name,
-                 other.home_planet
-        );
-    }
-}
+// impl Shoot for Character {
+//     fn shoot<T>(&self, other: &T) {
+//         println!("\n{:?} (of {:?}) shot at {:?} (of {:?})!",
+//                  self.name,
+//                  self.home_planet,
+//                  other.name,
+//                  other.home_planet
+//         );
+//     }
+// }
 
 //noinspection ALL
 fn can_travel(ship: &Ship) {
