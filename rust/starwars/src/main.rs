@@ -1,14 +1,14 @@
 use rand::prelude::*;
 use cgmath::prelude::*;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct Location {
     x: f32, 
     y: f32, 
     z: f32,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct Planet {
     name: String,
     class: String,
@@ -42,7 +42,8 @@ enum Ships {
 struct Character {
     name: String,
     home_planet: Planet,
-    weapon: Weapon
+    weapon: Weapon,
+    dmg: f64,
 }
 
 #[derive(Debug)] //, Default)] ??
@@ -63,29 +64,29 @@ pub struct Ship {
 //     }
 // } ??
 
-pub trait Xed {}
+//pub trait Xed {}
 
-impl Xed for Ship {}
+//impl Xed for Ship {}
 
-impl Xed for Character {}
+//impl Xed for Character {}
 
-pub trait Shoot {
-    fn shoot<T>(&self, other: &T) -> String;
-}
+//pub trait Shoot {
+//    fn shoot<T>(&self, other: &T) -> String;
+//}
 
-impl<T> Shoot for T
-    where
-        T: Xed,
-{
-    fn shoot<T>(&self, other: &T) {
-        println!("\n{:?} ({:?}) shot at {:?} ({:?})!",
-                 self.pilot,
-                 self.kind,
-                 other.pilot,
-                 other.kind
-        );
-    }
-}
+//impl<T> Shoot for T
+//    where
+//        T: Xed,
+//{
+//    fn shoot<T>(&self, other: &T) {
+//        println!("\n{:?} ({:?}) shot at {:?} ({:?})!",
+//                 self.pilot,
+//                 self.kind,
+//                 other.pilot,
+//                 other.kind
+//        );
+//    }
+//}
 
 // impl Shoot for Ship {
 //     fn shoot<T>(&self, other: &T) {
@@ -115,7 +116,7 @@ fn can_travel(ship: &Ship) {
         Ships::TieBomber(..) | Ships::TieFighter(..) => 1.0 * ship.fuel,
         Ships::XWing(..) | Ships::YWing(..) => 10.0 * ship.fuel,
     };
-    println!("{} ({:?}) can travel a distance of {} lightyears.", ship.pilot, ship.kind, distance);
+    println!("{:?} ({:?}) can travel a distance of {:?} lightyears.", ship.pilot, ship.kind, distance);
 }
 
 fn main() {
@@ -133,17 +134,20 @@ fn main() {
 
     let luke = Character {
         name: String::from("Luke"),
-        home_planet: tatooine.copy(),
+        home_planet: tatooine.clone(),
+        weapon: Weapon::Melee,
         dmg: 10.0,
     };
     let porkins = Character {
         name: String::from("Porkins"),
-        home_planet: tatooine.copy(),
+        home_planet: tatooine.clone(),
+        weapon: Weapon::Melee,
         dmg: 3.5,
     };
     let vader = Character {
         name: String::from("Darth Vader"),
-        home_planet: tatooine.copy(),
+        home_planet: tatooine.clone(),
+        weapon: Weapon::Melee,
         dmg: 11.5,
     };
 
@@ -187,9 +191,9 @@ fn main() {
     println!("{:?}", &tie_one);
     can_travel(&tie_one);
 
-    tie_one.shoot(&red_five);
-    red_five.shoot(&tie_one);
-    red_five.shoot(&tie_one);
+//    tie_one.shoot(&red_five);
+//    red_five.shoot(&tie_one);
+//    red_five.shoot(&tie_one);
 
     // rng & turbofish testing
     let n1: u8 = rng.gen();
