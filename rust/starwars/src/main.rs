@@ -13,24 +13,24 @@ struct Planet {
     name: String,
     class: String,
     stage: String,
-    radius: f64,
+    radius: f32,
     orbital: bool,
     loc: Location,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 enum Faction {
     Rebels,
     Imperials
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 enum Weapon {
     Melee,
     Ranged
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 enum Ships {
     XWing(String, Faction),
     YWing(String, Faction),
@@ -38,31 +38,46 @@ enum Ships {
     TieBomber(String, Faction),
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct Character {
     name: String,
     home_planet: Planet,
     weapon: Weapon,
-    dmg: f64,
+    dmg: f32,
 }
 
-#[derive(Debug)] //, Default)] ??
+#[derive(Debug, Clone)] //, Default)] ??
 pub struct Ship {
-    pilot: Character, // call sign?
-    kind: Ships,
+    pilot: Option<Character>, // call sign?
+    kind: Option<Ships>,
     kills: u32,
     fuel: f32,
-    health: u8, // Default::default(), ??
+    health: f32, // Default::default(), ??
     in_flight: bool,
     grounded: bool,
     rebel_scum: bool,
-    dmg: f64,
+    dmg: f32,
 }
-// impl Default for Ship {
-//     fn default(&self) -> Ship {
-//         Ship { health: 100 }
-//     }
-// } ??
+
+trait New {
+    fn new(&self) -> Ship;
+}
+
+impl New for Ship {
+    fn new(&self) -> Ship {
+         Ship {
+             pilot: None,
+             health: 100.0,
+             dmg: 100.0,
+             fuel: 100.0,
+             grounded: false,
+             in_flight: false,
+             kills: 0,
+             kind: None,
+             rebel_scum: false
+         }
+     }
+ }
 
 //pub trait Xed {}
 
@@ -70,9 +85,9 @@ pub struct Ship {
 
 //impl Xed for Character {}
 
-//pub trait Shoot {
-//    fn shoot<T>(&self, other: &T) -> String;
-//}
+pub trait Shoot {
+    fn shoot(&self, other: Ship) -> ();
+}
 
 //impl<T> Shoot for T
 //    where
@@ -88,16 +103,18 @@ pub struct Ship {
 //    }
 //}
 
-// impl Shoot for Ship {
-//     fn shoot<T>(&self, other: &T) {
-//         println!("\n{:?} ({:?}) shot at {:?} ({:?})!",
-//                  self.pilot,
-//                  self.kind,
-//                  other.pilot,
-//                  other.kind
-//         );
-//     }
-// }
+ impl Shoot for Ship {
+     fn shoot(&self, other: Ship) {
+         if let Some(c) = other.pilot && let Some(x) = other.kind {
+             println!("\n{:?} ({:?}) shot at {:?} ({:?})!",
+                      self.pilot,
+                      self.kind,
+                      c.name,
+                      other.kind
+             );
+         }
+     }
+ }
 
 // impl Shoot for Character {
 //     fn shoot<T>(&self, other: &T) {
@@ -113,14 +130,16 @@ pub struct Ship {
 //noinspection ALL
 fn can_travel(ship: &Ship) {
     let distance: f32 = match ship.kind {
-        Ships::TieBomber(..) | Ships::TieFighter(..) => 1.0 * ship.fuel,
-        Ships::XWing(..) | Ships::YWing(..) => 10.0 * ship.fuel,
+        Some(Ships::TieBomber(..)) | Some(Ships::TieFighter(..)) => 1.0 * ship.fuel,
+        Some(Ships::XWing(..)) | Some(Ships::YWing(..)) => 10.0 * ship.fuel,
+        None => 0.0,
     };
-    println!("{:?} ({:?}) can travel a distance of {:?} lightyears.", ship.pilot, ship.kind, distance);
+    println!("{:?} ({:?}) can travel a distance of {:?} lightyears.",
+             ship.pilot, ship.kind, distance);
 }
 
 fn main() {
-    
+
     let mut rng = rand::thread_rng();
 
     let tatooine = Planet {
@@ -154,11 +173,11 @@ fn main() {
     println!("{:?}\n", tatooine);
 
     let red_five = Ship {
-        pilot: luke,
-        kind: Ships::XWing("AA-589".to_string(), Faction::Rebels),
+        pilot: Some(luke),
+        kind: Some(Ships::XWing("AA-589".to_string(), Faction::Rebels)),
         kills: 18,
         fuel: 0.13,
-        health: 90,
+        health: 0.9,
         in_flight: true,
         grounded: false,
         rebel_scum: true,
@@ -168,8 +187,8 @@ fn main() {
     can_travel(&red_five);
 
     let red_six = Ship {
-        pilot: porkins,
-        kind: Ships::XWing("AA-399".to_string(), Faction::Rebels),
+        pilot: Some(porkins),
+        kind: Some(Ships::XWing("AA-399".to_string(), Faction::Rebels)),
         kills: 4,
         fuel: 0.56,
         ..red_five
@@ -178,11 +197,11 @@ fn main() {
     can_travel(&red_six);
 
     let tie_one = Ship {
-        pilot: vader,
-        kind: Ships::TieBomber("TB-9".to_string(), Faction::Imperials),
+        pilot: Some(vader),
+        kind: Some(Ships::TieBomber("TB-9".to_string(), Faction::Imperials)),
         kills: 493,
         fuel: 0.9,
-        health: 100,
+        health: 1.0,
         in_flight: true,
         grounded: false,
         rebel_scum: false,
@@ -191,9 +210,9 @@ fn main() {
     println!("{:?}", &tie_one);
     can_travel(&tie_one);
 
-//    tie_one.shoot(&red_five);
-//    red_five.shoot(&tie_one);
-//    red_five.shoot(&tie_one);
+    tie_one.shoot(red_five.clone());
+    &red_five.shoot(tie_one.clone());
+    red_five.shoot(tie_one);
 
     // rng & turbofish testing
     let n1: u8 = rng.gen();
