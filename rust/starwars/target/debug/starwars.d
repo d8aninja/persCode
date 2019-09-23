@@ -1,1 +1,1 @@
-/Users/jeffvangeete/git/persCode/rust/starwars/target/debug/starwars.dSYM: /Users/jeffvangeete/git/persCode/rust/starwars/src/main.rs
+/Users/jeffvangeete/git/persCode/rust/starwars/target/debug/starwars: /Users/jeffvangeete/git/persCode/rust/starwars/src/main.rs

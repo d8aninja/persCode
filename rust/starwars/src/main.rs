@@ -1,142 +1,21 @@
+//use cgmath::prelude::*;
 use rand::prelude::*;
-use cgmath::prelude::*;
+use s2::r3::vector::Vector as r3_vec;
 
-#[derive(Debug, Clone)]
-struct Location {
-    x: f32, 
-    y: f32, 
-    z: f32,
-}
+//use crate::troops::common::Weapon;
 
-#[derive(Debug, Clone)]
-struct Planet {
-    name: String,
-    class: String,
-    stage: String,
-    radius: f32,
-    orbital: bool,
-    loc: Location,
-}
-
-#[derive(Debug, Clone)]
-enum Faction {
-    Rebels,
-    Imperials
-}
-
-#[derive(Debug, Clone)]
-enum Weapon {
-    Melee,
-    Ranged
-}
-
-#[derive(Debug, Clone)]
-enum Ships {
-    XWing(String, Faction),
-    YWing(String, Faction),
-    TieFighter(String, Faction),
-    TieBomber(String, Faction),
-}
-
-#[derive(Debug, Clone)]
-struct Character {
-    name: String,
-    home_planet: Planet,
-    weapon: Weapon,
-    dmg: f32,
-}
-
-#[derive(Debug, Clone)] //, Default)] ??
-pub struct Ship {
-    pilot: Option<Character>, // call sign?
-    kind: Option<Ships>,
-    kills: u32,
-    fuel: f32,
-    health: f32, // Default::default(), ??
-    in_flight: bool,
-    grounded: bool,
-    rebel_scum: bool,
-    dmg: f32,
-}
-
-trait New {
-    fn new(&self) -> Ship;
-}
-
-impl New for Ship {
-    fn new(&self) -> Ship {
-         Ship {
-             pilot: None,
-             health: 100.0,
-             dmg: 100.0,
-             fuel: 100.0,
-             grounded: false,
-             in_flight: false,
-             kills: 0,
-             kind: None,
-             rebel_scum: false
-         }
-     }
- }
-
-//pub trait Xed {}
-
-//impl Xed for Ship {}
-
-//impl Xed for Character {}
-
-pub trait Shoot {
-    fn shoot(&self, other: Ship) -> ();
-}
-
-//impl<T> Shoot for T
-//    where
-//        T: Xed,
-//{
-//    fn shoot<T>(&self, other: &T) {
-//        println!("\n{:?} ({:?}) shot at {:?} ({:?})!",
-//                 self.pilot,
-//                 self.kind,
-//                 other.pilot,
-//                 other.kind
-//        );
-//    }
-//}
-
- impl Shoot for Ship {
-     fn shoot(&self, other: Ship) {
-         if let Some(c) = other.pilot && let Some(x) = other.kind {
-             println!("\n{:?} ({:?}) shot at {:?} ({:?})!",
-                      self.pilot,
-                      self.kind,
-                      c.name,
-                      other.kind
-             );
-         }
-     }
- }
-
-// impl Shoot for Character {
-//     fn shoot<T>(&self, other: &T) {
-//         println!("\n{:?} (of {:?}) shot at {:?} (of {:?})!",
-//                  self.name,
-//                  self.home_planet,
-//                  other.name,
-//                  other.home_planet
-//         );
-//     }
-// }
-
-//noinspection ALL
-fn can_travel(ship: &Ship) {
-    let distance: f32 = match ship.kind {
-        Some(Ships::TieBomber(..)) | Some(Ships::TieFighter(..)) => 1.0 * ship.fuel,
-        Some(Ships::XWing(..)) | Some(Ships::YWing(..)) => 10.0 * ship.fuel,
-        None => 0.0,
-    };
-    println!("{:?} ({:?}) can travel a distance of {:?} lightyears.",
-             ship.pilot, ship.kind, distance);
-}
+mod troops;
+use troops::{
+    Character,
+    Faction,
+    Weapon,
+};
+mod ships;
+use ships::{
+    Ship,
+    Group,
+    Shoot,
+};
 
 fn main() {
 
@@ -148,7 +27,7 @@ fn main() {
         stage: String::from("Spez"),
         radius: 10.5,
         orbital: false,
-        loc: Location { x: 7.2, y: 3.4, z: 5.6 },
+        loc: r3_vec{ x: 7.2, y: 3.4, z: 5.6 },
     };
 
     let luke = Character {
@@ -182,6 +61,7 @@ fn main() {
         grounded: false,
         rebel_scum: true,
         dmg: rng.gen(),
+        loc: r3_vec{x: 3.23, y: 4.61, z: 5.94},
     };
     println!("{:?}", &red_five);
     can_travel(&red_five);
@@ -191,6 +71,7 @@ fn main() {
         kind: Some(Ships::XWing("AA-399".to_string(), Faction::Rebels)),
         kills: 4,
         fuel: 0.56,
+        loc: r3_vec{x: 3.13, y: 4.62, z: 5.95},
         ..red_five
     };
     println!("{:?}", &red_six);
@@ -206,13 +87,16 @@ fn main() {
         grounded: false,
         rebel_scum: false,
         dmg: rng.gen(),
+        loc: r3_vec{x: 3.15, y: 4.55, z: 5.92}
     };
     println!("{:?}", &tie_one);
     can_travel(&tie_one);
 
     tie_one.shoot(red_five.clone());
     &red_five.shoot(tie_one.clone());
-    red_five.shoot(tie_one);
+    red_five.shoot(tie_one.clone());
+
+    println!("\n\n Distance: {}", &tie_one.loc.distance(&red_five.loc));
 
     // rng & turbofish testing
     let n1: u8 = rng.gen();
