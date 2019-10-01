@@ -6,3 +6,8 @@ rust/starwars/
 rust/tokio/
 rust/parser_combinators/
 rust/yaml/
+/target/
+/*/target/
+/*/*/target/
+target/
+*target*
