@@ -2,8 +2,6 @@
 use rand::prelude::*;
 use s2::r3::vector::Vector as r3_vec;
 
-//use crate::troops::common::Weapon;
-
 mod troops;
 use troops::{
     Character,
@@ -13,8 +11,15 @@ use troops::{
 mod ships;
 use ships::{
     Ship,
-    Group,
+    Ships,
     Shoot,
+    can_travel,
+};
+mod space;
+use space::{
+    Star,
+    Planet,
+    System,
 };
 
 fn main() {
@@ -63,7 +68,7 @@ fn main() {
         dmg: rng.gen(),
         loc: r3_vec{x: 3.23, y: 4.61, z: 5.94},
     };
-    println!("{:?}", &red_five);
+//    println!("{:?}", &red_five);
     can_travel(&red_five);
 
     let red_six = Ship {
@@ -74,12 +79,12 @@ fn main() {
         loc: r3_vec{x: 3.13, y: 4.62, z: 5.95},
         ..red_five
     };
-    println!("{:?}", &red_six);
+//    println!("{:?}", &red_six);
     can_travel(&red_six);
 
     let tie_one = Ship {
         pilot: Some(vader),
-        kind: Some(Ships::TieBomber("TB-9".to_string(), Faction::Imperials)),
+        kind: Some(Ships::TIEBomber("TB-9".to_string(), Faction::Imperials)),
         kills: 493,
         fuel: 0.9,
         health: 1.0,
@@ -89,14 +94,14 @@ fn main() {
         dmg: rng.gen(),
         loc: r3_vec{x: 3.15, y: 4.55, z: 5.92}
     };
-    println!("{:?}", &tie_one);
+//    println!("{:?}", &tie_one);
     can_travel(&tie_one);
 
     tie_one.shoot(red_five.clone());
     &red_five.shoot(tie_one.clone());
     red_five.shoot(tie_one.clone());
 
-    println!("\n\n Distance: {}", &tie_one.loc.distance(&red_five.loc));
+    println!("\n\n Distance from TIE One to RED Six: {}", &tie_one.loc.distance(&red_six.loc));
 
     // rng & turbofish testing
     let n1: u8 = rng.gen();
