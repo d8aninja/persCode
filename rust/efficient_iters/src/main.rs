@@ -1,6 +1,8 @@
+// main idea here is to learn the difference and when to use .iter(), iter_mut(), and into_iter()
+
 fn main() {
     increment_str_bytes("Howdy!");
-    increment_str_bytes("Every day I'm iterating!");
+    increment_str_bytes("Every day I'm iteratin'");
 
     let scores = vec!( ("Jeff".to_string(), 5) );
     let name =  pluck_first_name(scores);
