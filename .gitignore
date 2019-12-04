@@ -1,7 +1,7 @@
 venv
 .DS_Store
 *.idea*
-.vscode/*
+*.vscode/*
 rust/starwars/
 rust/tokio/
 rust/parser_combinators/
@@ -11,3 +11,5 @@ rust/yaml/
 /*/*/target/
 target/
 *target*
+**/*.rs.bk
+*.lock
