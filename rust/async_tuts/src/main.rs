@@ -1,3 +1,4 @@
+use async_std::task;
 use futures;
 use futures::executor::block_on;
 use std::thread::sleep;
@@ -8,12 +9,13 @@ struct Song {
     lyrics: String,
 }
 
-async fn learn_song() -> Song {
-    sleep(Duration::new(5, 0));
-    Song { lyrics: String::from("Whateva whateva, yea yea yea") }
+async fn learn_song() {
+    task::sleep(Duration::new(5, 0)).await;
+    println!("I'm learnding!")
 }
 
-async fn sing_song(song: Song) {
+async fn sing_song() {
+    let song: Song = Song { lyrics: String::from("Whateva whateva, yea yea yea") };
     println!("{:#?}", song);
 }
 
@@ -31,13 +33,13 @@ async fn learn_and_sing() {
     // thread, which makes it possible to `dance` at the same time.
     // note what happens to elision if you remove learn_song's .await...
     let song = learn_song().await;
-    sing_song(song).await;
+    sing_song().await;
 }
 
 async fn async_main() {
     // note what happens to elision if you remove learn_and_sing's .await...
-    let f1 = learn_and_sing().await;
-    let f2 = dance().await;
+    let f1 = learn_and_sing();
+    let f2 = dance();
 
     // `join!` is like `.await` but can wait for multiple futures concurrently.
     // If we're temporarily blocked in the `learn_and_sing` future, the `dance`
