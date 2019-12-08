@@ -12,21 +12,32 @@ use{
 };
 
 async fn serve_req(_req: Request<Body>) -> Result<Response<Body>, hyper::Error> {
+//    a rather bland response
     Ok(Response::new(Body::from("Hello world!")))
+//    let's try a proxy...
+//    how to get chrome to stop caching this page?
+//    let url_str = "http://www.rust-lang.org/en-US/";
+//    let url = url_str.parse::<Uri>().expect("Failed to parse.");
+//    let res = Client::new().get(url).compat().await;
+//    println!("Request finished! Printing:");
+//    res
 }
 
 async fn run_server(addr: SocketAddr) {
     println!("Listening on http://{}", addr);
 
     let serve_future = Server::bind(&addr)
-        .serve(|| service_fn(|req| serve_req(req).boxed().compat()));
+//        .serve(|| service_fn(|req| serve_req(req).boxed().compat()));
+        .serve(|| service_fn(|req| {
+            dbg!(&req);
+            serve_req(req).boxed().compat()
+        }));
+
 
     if let Err(e) = serve_future.compat().await {
         eprintln!("Server error: {}", e)
     }
 }
-
-
 
 fn main() {
     let addr = SocketAddr::from(([127,0,0,1], 3000));
