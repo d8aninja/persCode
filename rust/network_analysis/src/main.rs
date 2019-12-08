@@ -10,7 +10,9 @@ async fn capture_1() {
         .snaplen(5000)
         .open().unwrap();
 
-    while let Ok(packet) = cap1.next() {
+//    tokio::block_on(cap1.next())
+
+    while let Ok(packet) = cap1.next().await {
         println!("Received packet on Capture 1! {:?}", packet);
     }
 }
@@ -24,18 +26,15 @@ async fn capture_2() {
         .snaplen(5000)
         .open().unwrap();
 
-    while let Ok(packet) = cap2.next() {
+    while let Ok(packet) = cap2.next().await {
         println!("Received packet on Capture 2! {:?}", packet);
     }
 }
 
-async fn async_main() {
+#[tokio::main]
+async fn main() {
     let f1 = capture_1();
     let f2 = capture_2();
 
-    futures::join!(f1, f2)
-}
-
-fn main() {
-    block_on(async_main())
+    futures::join!(f1, f2).await
 }

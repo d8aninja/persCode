@@ -1,5 +1,5 @@
 [package]
-name = "network_analysis"
+name = "tokio_2"
 version = "0.1.0"
 authors = ["Jeff van Geete <jeff.vangeete@protectwise.com>"]
 edition = "2018"
@@ -7,6 +7,4 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-futures = "0.3.1"
-pcap = "0.7.0"
-tokio = "0.2.2"
+tokio = "0.2.3"
