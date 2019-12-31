@@ -34,26 +34,6 @@ fn main() {
         orbital: false,
         loc: r3_vec{ x: 7.2, y: 3.4, z: 5.6 },
     };
-
-    let luke = Character {
-        name: String::from("Luke"),
-        home_planet: tatooine.clone(),
-        weapon: Weapon::Melee,
-        dmg: 10.0,
-    };
-    let porkins = Character {
-        name: String::from("Porkins"),
-        home_planet: tatooine.clone(),
-        weapon: Weapon::Melee,
-        dmg: 3.5,
-    };
-    let vader = Character {
-        name: String::from("Darth Vader"),
-        home_planet: tatooine.clone(),
-        weapon: Weapon::Melee,
-        dmg: 11.5,
-    };
-
     println!("{:?}\n", tatooine);
 
     let red_five = Ship {
@@ -103,7 +83,8 @@ fn main() {
 
     println!("\n\n Distance from TIE One to RED Six: {}", &tie_one.loc.distance(&red_six.loc));
 
-    // rng & turbofish testing
+    /*
+    rng & turbofish testing
     let n1: u8 = rng.gen();
     let n2: u16 = rng.gen();
     println!("\nRandom u8: {}", n1);
@@ -112,4 +93,38 @@ fn main() {
     println!("Random i32: {}", rng.gen::<i32>());
     println!("Random float: {}", rng.gen::<f64>());
     println!("Random float in range: {}", rng.gen_range(0.0, 10.0));
+    */
+}
+
+#[cfg(test)]
+mod tests {
+    use super::troops::{Character, Weapon};
+
+    #[test]
+    fn ships() {}
+
+    #[test]
+    fn space {}
+
+    #[test]
+    fn troops() {
+        let luke = Character {
+            name: String::from("Luke"),
+            home_planet: tatooine.clone(),
+            weapon: Weapon::Melee,
+            dmg: 10.0,
+        };
+        let porkins = Character {
+            name: String::from("Porkins"),
+            home_planet: tatooine.clone(),
+            weapon: Weapon::Melee,
+            dmg: 3.5,
+        };
+        let vader = Character {
+            name: String::from("Darth Vader"),
+            home_planet: tatooine.clone(),
+            weapon: Weapon::Melee,
+            dmg: 11.5,
+        };
+    }
 }
