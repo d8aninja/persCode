@@ -1,14 +1,20 @@
 //use cgmath::prelude::*;
+#[allow(unused_imports)]
 mod troops;
 
+#[allow(unused_imports)]
 use troops::*;
 
+#[allow(unused_imports)]
 mod ships;
 
+#[allow(unused_imports)]
 use ships::*;
 
+#[allow(unused_imports)]
 mod space;
 
+#[allow(unused_imports)]
 use space::*;
 
 fn main() {
@@ -51,8 +57,27 @@ mod tests {
     fn test_ships() {
         //deps on rng :(
         let mut rng = rand::thread_rng();
-        let luke = Character::default();
-        let vader = Character::default();
+        let luke = Character::new(
+            "Luke".to_string(),
+            Some(Planet::new(
+                "Tatooine".to_string(),
+                None, None, None, None,
+                r3_vec{x: 1.7, y: 3.1, z: 2.4} //this needs to be boxed
+            )),
+            Some(Weapon::Melee),
+            Some(34.2),
+        );
+        let vader = Character::new(
+            "Anakin".to_string(),
+            Some(Planet::new(
+                "Tatooine".to_string(),
+                None, None, None, None,
+                r3_vec{x: 1.7, y: 3.1, z: 2.4} //this needs to be boxed
+            )),
+            Some(Weapon::Melee),
+            Some(55.0),
+        );
+        let celebrity_cameo = Character::default();
 
         let red_five = Ship {
             pilot: Some(luke),
@@ -93,10 +118,15 @@ mod tests {
 //            )
         );
 
-        //todo: test shooting
-        //tie_one.shoot(red_five.clone());
-        //&red_five.shoot(tie_one.clone());
-        //red_five.shoot(tie_one.clone());
+        println!("{}",
+//            red_five.shoot(tie_one),
+            format!("{:?} ({:?}) shot at {:?} ({:?})!",
+                    red_five.pilot.unwrap().name,
+                    red_five.kind.unwrap().to_owned(),
+                    tie_one.pilot.unwrap().name,
+                    tie_one.kind.unwrap().to_owned()
+            )
+        );
 
         //todo: assertion; parameterize the names, like above
         //println!("\n\n Distance from TIE One to RED Six: {}", &tie_one.loc.distance(&red_six.loc));
