@@ -142,27 +142,16 @@ mod tests {
         //            )
 
         //todo: make assertion
-        println!(
-            "{}",
-            format!(
-                "{:?} ({:?}) shot at {:?} ({:?})!",
-                &red_five.pilot.clone().unwrap().name,
-                &red_five.kind.clone().unwrap(),
-                &tie_one.pilot.clone().unwrap().name,
-                &tie_one.kind.clone().unwrap(),
-            )
+        format!(
+            "{:?} ({:?}) shot at {:?} ({:?})!",
+            &red_five.pilot.clone().unwrap().name,
+            &red_five.kind.clone().unwrap(),
+            &tie_one.pilot.clone().unwrap().name,
+            &tie_one.kind.clone().unwrap(),
         );
 
         //todo: test shooting
         //red_five.shoot(tie_one),
-        println!("{}",
-            format!("{:?} ({:?}) shot at {:?} ({:?})!",
-                    &red_five.pilot.clone().unwrap().name,
-                    &red_five.kind.clone().unwrap(),
-                    &tie_one.pilot.clone().unwrap().name,
-                    &tie_one.kind.clone().unwrap(),
-            )
-        );
 
         //todo: assertion; parameterize the names
         //println!("\n\n Distance from TIE One to RED Six: {}", &tie_one.loc.distance(&red_six.loc));
