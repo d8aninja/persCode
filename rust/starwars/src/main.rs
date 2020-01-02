@@ -38,10 +38,10 @@ mod tests {
     use super::space::*;
     use super::troops::*;
     use rand::prelude::*;
+    use s2::point::Point;
     use s2::r3::vector::Vector as r3_vec;
     use std::borrow::Borrow;
     use std::convert::TryInto;
-    use s2::point::Point;
 
     #[test]
     fn test_troops() {
@@ -198,10 +198,22 @@ mod tests {
             },
         );
 
-        let a = Point::from_coords(tatooine.loc.x.clone(), tatooine.loc.y.clone(), tatooine.loc.z.clone());
-        let b = Point::from_coords(ohann.loc.x.clone(), ohann.loc.y.clone(), ohann.loc.z.clone());
-        let c = Point::from_coords(adrianna.loc.x.clone(), adrianna.loc.y.clone(), adrianna.loc.z.clone());
-        let centroid =  s2::point::planar_centroid(&a, &b, &c);
+        let a = Point::from_coords(
+            tatooine.loc.x.clone(),
+            tatooine.loc.y.clone(),
+            tatooine.loc.z.clone(),
+        );
+        let b = Point::from_coords(
+            ohann.loc.x.clone(),
+            ohann.loc.y.clone(),
+            ohann.loc.z.clone(),
+        );
+        let c = Point::from_coords(
+            adrianna.loc.x.clone(),
+            adrianna.loc.y.clone(),
+            adrianna.loc.z.clone(),
+        );
+        let centroid = s2::point::planar_centroid(&a, &b, &c);
         dbg!(centroid);
 
         let tatoo = System::new(
@@ -210,7 +222,11 @@ mod tests {
             None,
             Some(7.2),
             Some(false),
-            r3_vec{ x: centroid.0.x*10., y: centroid.0.y*10., z: centroid.0.z*10. }, //use centroid here somehow
+            r3_vec {
+                x: centroid.0.x * 10.,
+                y: centroid.0.y * 10.,
+                z: centroid.0.z * 10.,
+            }, //use centroid here somehow
             Some(vec![tatooine, ohann, adrianna]),
             None,
         );
