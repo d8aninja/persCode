@@ -2,7 +2,6 @@ venv
 .DS_Store
 *.idea*
 *.vscode/*
-rust/starwars/
 rust/tokio/
 rust/parser_combinators/
 rust/yaml/
