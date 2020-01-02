@@ -41,6 +41,7 @@ mod tests {
     use s2::r3::vector::Vector as r3_vec;
     use std::borrow::Borrow;
     use std::convert::TryInto;
+    use s2::point::Point;
 
     #[test]
     fn test_troops() {
@@ -145,10 +146,10 @@ mod tests {
             "{}",
             format!(
                 "{:?} ({:?}) shot at {:?} ({:?})!",
-                red_five.pilot.unwrap().name.bytes(),
-                red_five.kind.unwrap(),
-                tie_one.pilot.unwrap().name,
-                tie_one.kind.unwrap().clone(),
+                &red_five.pilot.clone().unwrap().name,
+                &red_five.kind.clone().unwrap(),
+                &tie_one.pilot.clone().unwrap().name,
+                &tie_one.kind.clone().unwrap(),
             )
         );
 
@@ -156,10 +157,10 @@ mod tests {
         //red_five.shoot(tie_one),
         println!("{}",
             format!("{:?} ({:?}) shot at {:?} ({:?})!",
-                    red_five.pilot.unwrap().name,
-                    red_five.kind.unwrap().to_owned(),
-                    tie_one.pilot.unwrap().name,
-                    tie_one.kind.unwrap().to_owned()
+                    &red_five.pilot.clone().unwrap().name,
+                    &red_five.kind.clone().unwrap(),
+                    &tie_one.pilot.clone().unwrap().name,
+                    &tie_one.kind.clone().unwrap(),
             )
         );
 
@@ -208,13 +209,11 @@ mod tests {
             },
         );
 
-        //todo: figure out how to make the centroid with points from the planet's r3_vecs
-//        let a = s2::r2::point::Point::from_coords(x: tatooine.loc.x, y: tatooine.loc.y, z: tatooine.loc.z);
-//        let b = s2::r2::point::Point::from_coords(x: ohann.loc.x, y: ohann.loc.y, z: ohann.loc.z);
-//        let c = s2::r2::point::Point::from_coords(x: adrianna.loc.x, y: adrianna.loc.y, z: adrianna.loc.z);
-//        let centroid =  s2::point::planar_centroid(a, b, c);
-//        dbg!(tatoo);
-//        dbg!(centroid);
+        let a = Point::from_coords(tatooine.loc.x.clone(), tatooine.loc.y.clone(), tatooine.loc.z.clone());
+        let b = Point::from_coords(ohann.loc.x.clone(), ohann.loc.y.clone(), ohann.loc.z.clone());
+        let c = Point::from_coords(adrianna.loc.x.clone(), adrianna.loc.y.clone(), adrianna.loc.z.clone());
+        let centroid =  s2::point::planar_centroid(&a, &b, &c);
+        dbg!(centroid);
 
         let tatoo = System::new(
             "Tatoo".to_string(),
@@ -222,11 +221,10 @@ mod tests {
             None,
             Some(7.2),
             Some(false),
-            r3_vec{ x: 7.23, y: 3.46, z: 5.58 }, //use centroid here somehow
+            r3_vec{ x: centroid.0.x*10., y: centroid.0.y*10., z: centroid.0.z*10. }, //use centroid here somehow
             Some(vec![tatooine, ohann, adrianna]),
             None,
         );
-
         dbg!(tatoo);
     }
 }
