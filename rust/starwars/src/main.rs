@@ -3,19 +3,10 @@
 mod troops;
 
 #[allow(unused_imports)]
-use troops::*;
-
-#[allow(unused_imports)]
 mod ships;
 
 #[allow(unused_imports)]
-use ships::*;
-
-#[allow(unused_imports)]
 mod space;
-
-#[allow(unused_imports)]
-use space::*;
 
 fn main() {
     /*
