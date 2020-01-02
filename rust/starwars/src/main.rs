@@ -154,6 +154,14 @@ mod tests {
 
         //todo: test shooting
         //red_five.shoot(tie_one),
+        println!("{}",
+            format!("{:?} ({:?}) shot at {:?} ({:?})!",
+                    red_five.pilot.unwrap().name,
+                    red_five.kind.unwrap().to_owned(),
+                    tie_one.pilot.unwrap().name,
+                    tie_one.kind.unwrap().to_owned()
+            )
+        );
 
         //todo: assertion; parameterize the names
         //println!("\n\n Distance from TIE One to RED Six: {}", &tie_one.loc.distance(&red_six.loc));
