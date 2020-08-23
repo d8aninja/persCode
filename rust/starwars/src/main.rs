@@ -1,12 +1,12 @@
 //use cgmath::prelude::*;
 #[allow(unused_imports)]
-mod troops;
-
-#[allow(unused_imports)]
 mod ships;
 
 #[allow(unused_imports)]
 mod space;
+
+#[allow(unused_imports)]
+mod troops;
 
 fn main() {
     /*
@@ -25,14 +25,14 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
-    use super::ships::*;
-    use super::space::*;
-    use super::troops::*;
     use rand::prelude::*;
     use s2::point::Point;
     use s2::r3::vector::Vector as r3_vec;
+    use super::ships::*;
+    use super::space::*;
     use std::borrow::Borrow;
     use std::convert::TryInto;
+    use super::troops::*;
 
     #[test]
     fn test_troops() {
@@ -164,7 +164,7 @@ mod tests {
         );
         assert_eq!(tatooine.name, "Tatooine".to_string());
 
-        let ohann = Planet::new(
+        let ohan = Planet::new(
             String::from("Ohan"),
             Some(String::from("C")),
             Some(String::from("Spez")),
@@ -195,9 +195,9 @@ mod tests {
             tatooine.loc.z.clone(),
         );
         let b = Point::from_coords(
-            ohann.loc.x.clone(),
-            ohann.loc.y.clone(),
-            ohann.loc.z.clone(),
+            ohan.loc.x.clone(),
+            ohan.loc.y.clone(),
+            ohan.loc.z.clone(),
         );
         let c = Point::from_coords(
             adrianna.loc.x.clone(),
