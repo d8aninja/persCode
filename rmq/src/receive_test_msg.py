@@ -1,17 +1,19 @@
+#!/usr/bin/env python
 import pika
 
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters('localhost')
-)
+    pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 
-channel.exchange_declare('jeff_test')
-channel.queue_declare('hello')
+channel.queue_declare(queue='hello')
+
 
 def callback(ch, method, properties, body):
-    print('[x] received %s', body)
+    print(" [x] Received %r" % body)
 
-channel.basic_consume(queue='hello', on_message_callback=callback, auto_ack=True)
-print('[x] waiting for messages, press ctrl-c to continue...')
 
+channel.basic_consume(
+    queue='hello', on_message_callback=callback, auto_ack=True)
+
+print(' [*] Waiting for messages. To exit press CTRL+C')
 channel.start_consuming()

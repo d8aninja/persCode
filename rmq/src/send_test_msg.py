@@ -1,15 +1,12 @@
+#!/usr/bin/env python
 import pika
 
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters('localhost')
-)
+    pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 
-channel.exchange_declare('jeff_test')
-channel.queue_declare('hello')
+channel.queue_declare(queue='hello')
 
-channel.basic_publish(exchange='jeff_test', routing_key='hello', body='Hello World!')
-
-print('[x] Sent Hello World!')
-
-channel.close()
+channel.basic_publish(exchange='', routing_key='hello', body='Hello World!')
+print(" [x] Sent 'Hello World!'")
+connection.close()
