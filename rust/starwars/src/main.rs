@@ -218,7 +218,7 @@ mod tests {
                 y: centroid.0.y * 10.,
                 z: centroid.0.z * 10.,
             }, //use centroid here somehow
-            Some(vec![tatooine, ohann, adrianna]),
+            Some(vec![tatooine, ohan, adrianna]),
             None,
         );
         dbg!(tatoo);
