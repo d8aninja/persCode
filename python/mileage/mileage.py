@@ -2,6 +2,7 @@ import argparse
 from datetime import datetime, timedelta
 import logging
 import os
+import re
 import sys
 from typing import Tuple
 
@@ -21,7 +22,13 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Calculate and track lease mileage.')
     parser.add_argument('--odo', dest='current_odo', required=True)
-    parser.add_argument('--name', dest='run_name', required=False)
+    parser.add_argument('--year', dest='veh_year', required=False, default="2020")
+    parser.add_argument('--make', dest='veh_make', required=False, default="Toyota")
+    parser.add_argument('--model', dest='veh_model', required=False, default="Highlander")
     # parser.add_argument('--x', dest='x', action='store_true', default=False)
     args = parser.parse_args()
-    logger = logging.getLogger(run_name if run_name is not None else "2020 Highlander")
+
+    run_name = args.veh_year + " " + args.veh_make + " " + args.veh_model
+    print(run_name) if re.sub(r'\s+', '', run_name) != "" else print ("'Run Name' cannot be blank.")
+
+    logger = logging.getLogger(run_name)
