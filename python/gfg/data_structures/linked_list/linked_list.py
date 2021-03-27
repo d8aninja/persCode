@@ -1,8 +1,66 @@
 #! /usr/bin/env python3
 
-def linked_list():
-    """
-    LINKED LIST:
+class Node():
+    
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList():
+
+    def __init__(self):
+        self.head = None
+
+    def printList(self):
+        temp = self.head
+        while temp:
+            print(temp.data)
+            temp = temp.next
+    # O(1); 4 steps
+    def push(self, new_data):
+        # step 1&2: initialize new node and load data
+        new_node = Node(new_data)
+        # step 3: make the new node's .next the old head
+        new_node.next = self.head
+        # step 4: make the new node the new head
+        self.head = new_node
+    # O(1); 5 steps
+    def insert(self, prev_node, new_data):
+        # step 1: check if previous node exists
+        if prev_node is None:
+            print("Previous node must be in the given linked list.")
+            return
+        # step 2&3: initalize new node and load data
+        new_node = Node(new_data)
+        # step 4: point new node's .next at previous node's .next
+        new_node.next = prev_node.next
+        # step 5: point prev_node's .next at new_node
+        prev_node.next = new_node
+    # O(n) unless you have a pointer to the final node, iwc O(1)
+    def append(self, new_data):
+        # steps 1-3: create, load, point
+        new_node = Node(new_data)
+        # step 4: if LinkedList instance is empty, new_node is the new .head
+        if self.head is None:
+            self.head = new_node
+            return
+        # step 5: else traverse to last node
+        last = self.head
+        while (last.next):
+            last = last.next
+        # step 6: change (true) last's .next node to new_node
+        last.next = new_node
+        
+
+
+if __name__ == "__main__":
+    import argparse
+    from argparse import RawTextHelpFormatter
+
+    parser = argparse.ArgumentParser(formatter_class=RawTextHelpFormatter, description="""\n
+    LINKED LIST: Instantiate a linked list.
+
+    DESCRIPTION:
     - Like an array, is a linear data structure.
     - Unlike an array, is stored in a non-contiguous location.
     - Non-contiguity is overcome by the use of pointers.
@@ -11,29 +69,32 @@ def linked_list():
     - Dynamic size: arrays require a fixed upper-limit, known in advance, regardless of use.
     - Ease of insertion / deletion (dyn. arrays are O(n)).
     WHY NOT TO USE: 
-    - Random access is not allowed. We have to access elements sequentially starting from the first node. 
+    - Random access is not allowed. We have to access elements sequentially starting from the first node.
       So we cannot do binary search with linked lists efficiently with its default implementation.
     - Extra memory space for a pointer is required with each element of the list.
     - Not cache friendly. Since array elements are contiguous locations, there is locality of reference which is not
       there in case of linked lists.
-    COMPLEXITIES (Source: Wikipedia):
+    COMPLEXITIES (Wikipedia):
                               Linked list   Array   Dynamic array   Balanced tree
     Indexing                          Θ(n)   Θ(1)       Θ(1)             Θ(log n)
     Insert/delete at beginning        Θ(1)   N/A        Θ(n)             Θ(log n)
     Insert/delete at end              Θ(1)   N/A        Θ(1) amortized   Θ(log n)
-    Insert/delete in middle     search time 
+    Insert/delete in middle     search time
                                     + Θ(1)   N/A        Θ(n)             Θ(log n)
     Wasted space (average)            Θ(n)    0         Θ(n)             Θ(n)
-    """
-    pass
-
-if __name__ == "__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser(description="Instantiate a linked list.")
-    parser.add_argument('--doc', dest="doc", required=False, type=int, default=1)
-
+    """)
     args = parser.parse_args()
 
-    if args.doc:
-        print(linked_list.__doc__)
+    llist = LinkedList()
+    llist.head = Node(1)
+
+    second = Node(2)
+    third = Node(3)
+
+    llist.head.next = second
+    second.next = third
+    llist.printList()
+
+    llist.push("real 1")
+    llist.insert(1, "what")
+    llist.append(2)
