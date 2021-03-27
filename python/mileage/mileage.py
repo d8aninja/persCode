@@ -25,7 +25,7 @@ if __name__ == "__main__":
     parser.add_argument('--year', dest='veh_year', required=False, default="2020")
     parser.add_argument('--make', dest='veh_make', required=False, default="Toyota")
     parser.add_argument('--model', dest='veh_model', required=False, default="Highlander")
-    # parser.add_argument('--x', dest='x', action='store_true', default=False)
+    parser.add_argument('--x', dest='x', action='store_true', default=False)
     args = parser.parse_args()
 
     run_name = args.veh_year + " " + args.veh_make + " " + args.veh_model
@@ -39,7 +39,7 @@ if __name__ == "__main__":
         # current_odo_num = 
         mi = mileage_calcs(odo=args.current_odo)
         print(mi)
-        print(f"The lease is {d} days old; the {run_name} has ...")
+        print(f"The lease is {d} days old; the {run_name} has {mi[0][0]}")
     except TypeError as te:
         print(f"Error: {te}.\n")
         logger.warning(f"TypeError!\nMileage Var: NO.\nDelta Var: {d}.")

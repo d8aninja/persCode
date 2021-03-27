@@ -1,0 +1,12 @@
+
+[api]
+  enabled=true
+
+[sources.in]
+  type="stdin"
+
+[sinks.out]
+  inputs=["in"]
+  type="console"
+  encoding.codec="json"
+
