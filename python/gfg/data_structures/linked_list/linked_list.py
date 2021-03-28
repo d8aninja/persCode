@@ -50,8 +50,6 @@ class LinkedList():
             last = last.next
         # step 6: change (true) last's .next node to new_node
         last.next = new_node
-        
-
 
 if __name__ == "__main__":
     import argparse
@@ -85,16 +83,32 @@ if __name__ == "__main__":
     """)
     args = parser.parse_args()
 
-    llist = LinkedList()
-    llist.head = Node(1)
+    ll_1 = LinkedList()
+    ll_1.head = Node(1)
 
     second = Node(2)
     third = Node(3)
 
-    llist.head.next = second
+    ll_1.head.next = second
     second.next = third
-    llist.printList()
+    ll_1.printList()
 
-    llist.push("real 1")
-    llist.insert(1, "what")
-    llist.append(2)
+    ll_1.push("real 1")
+    ll_1.insert(ll_1.head.next, "inserted node")
+    ll_1.append("the end")
+    ll_1.printList()
+
+    ll_2 = LinkedList()
+    ll_2.append(6)
+    ll_2.push(1)
+    ll_2.printList()
+
+    ll_1.insert(ll_1.head.next, ll_2) # this only inserts the pointer(...?)
+    ll_1.printList()
+    # real 1
+    # 1
+    # <__main__.LinkedList object at 0x7fd16c8a9b50>
+    # inserted node
+    # 2
+    # 3
+    # the end
